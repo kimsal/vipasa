@@ -1,0 +1,5 @@
+Template="vipassa";
+limit="30";
+email="kimsalsan12@gmail.com";
+password="11101999sal";
+name="Kimsal San";

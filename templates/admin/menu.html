@@ -1,0 +1,166 @@
+{% include 'admin/header.html' %} 
+<style type="text/css">
+.checkbox{
+	padding: 10px;
+	font-size: 20px;
+}
+
+.checkbx {
+	padding: 5px;
+	width: 100%;
+}
+.menu_box{
+    width:100%;
+    height: 35px;
+    background-color: #99ccff;
+    padding:10px;
+    border-radius: 2px;
+    cursor: pointer;
+    line-height: 20px;
+}
+</style>
+
+
+
+
+<!-- MAIN PANEL -->
+
+
+<div id="main" role="main">
+
+            <!-- RIBBON -->
+            <div id="ribbon">
+
+                <span class="ribbon-button-alignment"> <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true"> <i class="fa fa-refresh"></i> </span> </span>
+            </div>
+            <!-- END RIBBON -->
+
+            <!-- MAIN CONTENT -->
+            <div id="content">
+
+                <!-- row -->
+                <div class="row">
+                    <button class="btn btn-default pull-right btn-add" >
+                        <span class="fa fa-plus-circle" aria-hidden="true"></span>
+                        New
+                    </button>
+                    <!-- col -->
+                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                        <h1 class="page-title txt-color-blueDark"><!-- PAGE HEADER --><i class="fa-fw fa fa-home"></i>Menu</h1>
+                    </div>
+                     {% with messages = get_flashed_messages() %}
+                      {% if messages %}
+                        {% for message in messages %}
+                          <div class="alert"> 
+                            {{ message }}
+                          </div>
+                        {% endfor %}
+                      {% endif %}
+                    {% endwith %}
+                    <!-- end col -->
+
+                    <!-- right side of the page with the sparkline graphs -->
+                    <!-- col -->
+                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+                        <!-- sparks -->
+                        
+                        <!-- end sparks -->
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+
+                <!--
+                The ID "widget-grid" will start to initialize all widgets below
+                You do not need to use widgets if you dont want to. Simply remove
+                the <section></section> and you can use wells or panels instead
+                -->
+
+                <!-- widget grid -->
+                <section id="widget-grid" class="">
+                    <!-- row -->
+                    <div class="row">
+                        <!-- NEW WIDGET START -->
+                            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <!-- Widget ID (each widget will need unique ID)-->
+                                <div class="jarviswidget" id="wid-id-0" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+                                    <header>
+                                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                                    </header>
+                                    <div class="row" style="padding-bottom:10px;">
+                                    	<div class="col-xs-12 col-sm-6 col-lg-6">
+                                    		<h2 class="page-title txt-color-blueDark">
+                                    		<center>SELECT CATEGORIES</center>
+                                    		</h2>
+	                                    	<form role="form" name="frmcategory" id="category">
+							        	 	{%for category in cats%}
+										    <div class="col-xs-12 col-sm-6 col-md-6 menu-box">
+										     	<div class="menu_box">
+												    <input style="margin-top:0px;" {%if category.is_menu %} checked {%endif%} type="checkbox" value="{{category.id}}" name="category_box" id="category">
+												     {{category.name}}
+											    </div>
+										    </div>
+										    {%endfor%}
+										  </form>
+										</div>
+
+										<div class="col-xs-12 col-sm-6 col-lg-6">
+												<h2 class="page-title txt-color-blueDark">
+												<center>SELECT PAGES</center>
+												</h2>
+												<form role="form" name="frmpage" id="page">
+												    {%for page in ps %}
+												     <div class="col-xs-12 col-sm-6 col-md-6 menu-box">
+                                                        <div class="menu_box">
+        												    <input  style="margin-top:0px;" {%if page.is_menu %} checked {%endif%} type="checkbox" value="{{page.id}}" name="category_box" id="page"> {{page.title}}     
+                                                        </div>   
+												    </div>
+												    {%endfor%}
+
+                                                    
+												</form>
+										</div>
+                                    </div>
+                                </div>
+                            </article>
+                        <!-- WIDGET END -->
+                    </div>
+                   <!-- end row -->
+
+                </section>
+                <!-- end widget grid -->
+
+            </div>
+            <!-- END MAIN CONTENT -->
+
+ </div>
+        <!-- END MAIN PANEL -->
+
+<script type="text/javascript">
+    $('.menu-box').click(function(){
+        // alert($(this).find('input[name="category_box"]').val());
+        if($(this).find('input[name="category_box"]').is(':checked')){
+            $(this).find('input[name="category_box"]').prop( "checked", false );
+        }
+        else{
+            $(this).find('input[name="category_box"]').prop( "checked", true );
+        }
+        var check_page_or_category=$(this).find('input[name="category_box"]').attr('id').trim();
+        var id=$(this).find('input[name="category_box"]').val();
+        var category_check=$(this).find('input[name="category_box"]').is(':checked');
+        if(category_check==true)
+            category_check=1;
+        else
+            category_check=0;
+        //alert(category_check);
+        $.ajax({
+          type: "GET",
+          url: '/admin/menu/'+id+"/"+category_check+"/"+check_page_or_category+"/",
+          success: function(response) {
+          }
+        });
+    });
+</script>
+
+{% include 'admin/footer.html' %} 
+<!--end menu add-->

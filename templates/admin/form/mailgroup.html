@@ -1,0 +1,320 @@
+{% include 'admin/header.html' %}
+   <!-- MAIN PANEL -->
+    <div id="main" role="main">
+
+      <!-- RIBBON -->
+      <div id="ribbon">
+
+        <span class="ribbon-button-alignment"> 
+          <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+            <i class="fa fa-refresh"></i>
+          </span> 
+        </span>
+
+        <!-- breadcrumb -->
+        <ol class="breadcrumb">
+          <li>Home</li><li>Group</li>
+        </ol>
+        <!-- end breadcrumb -->
+
+        <!-- You can also add more buttons to the
+        ribbon for further usability
+
+        Example below:
+
+        <span class="ribbon-button-alignment pull-right">
+        <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
+        <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
+        <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
+        </span> -->
+
+      </div>
+      <!-- END RIBBON -->
+
+      <!-- MAIN CONTENT -->
+      <div id="content">
+
+        <div class="inbox-nav-bar no-content-padding">
+        
+          <h1 class="page-title txt-color-blueDark hidden-tablet"><i class="fa fa-fw fa-inbox"></i> Group &nbsp;
+            <span class="btn-group">
+              <a href="#" data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle"><span class="caret single"></span></a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/admin/email">Compose</a>
+                </li>
+                <li>
+                  <a href="/admin/config">Configure email</a>
+                </li>
+                <li>
+                  <a href="/admin/email/group">Group</a>
+                </li>
+                <li>
+                  <a href="/admin/mail">Contact</a>
+                </li>
+                <li>
+                  <a href="/admin/import">Import contact</a>
+                </li>
+                <li>
+                  <a href="/admin/email/sending">
+                    {%if email_to_send==0 %}
+                   No email sending 
+                {%elif email_to_send==1%}
+                  {{email_to_send}} sending email ... 
+                {%else%}
+                  {{email_to_send}} sending emails ... 
+                {%endif%}
+                  </a>
+                </li>
+              </ul>
+            </span>
+          </h1>
+          <div class="inbox-checkbox-triggered">
+        
+            <div class="btn-group"> 
+            </div>
+        
+          </div>
+          <div class="btn-group inbox-paging">
+            <form id="frm" role="form" action="/admin/email/group/" method="POST">
+              <div class="col-md-10">
+                <input class="form-control" name="name" placeholder="Group ..." type="text" required value="">
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-primary" placeholder="Group ..." type="submit">
+                <i class="fa fa-plus"></i> &nbsp;
+                Save&nbsp;
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        <div id="inbox-content" class="inbox-body no-content-padding">
+        
+          <div class="inbox-side-bar">
+        
+            <a href="/admin/email"  class="btn btn-primary btn-block"> <strong>Compose</strong> </a>
+            <ul class="inbox-menu-lg">
+              <li class="active">
+                <a class="inbox-load" href="/admin/config/"> Configure email </a>
+              </li>
+            </ul>
+            <ul class="inbox-menu-lg">
+              <li class="active">
+                <a class="inbox-load" href="/admin/email/group/"> Group </a>
+              </li>
+            </ul>
+            <ul class="inbox-menu-lg">
+              <li class="active">
+                <a class="inbox-load" href="/admin/mail/"> Contact </a>
+              </li>
+            </ul>
+            <ul class="inbox-menu-lg">
+              <li class="active">
+                <a class="inbox-load" href="/admin/import/"> Import contact </a>
+              </li>
+            </ul>
+            <ul class="inbox-menu-lg">
+              <li class="active">
+                <a class="inbox-load" href="/admin/email/sending">
+                {%if email_to_send==0 %}
+                   No email sending 
+                {%elif email_to_send==1%}
+                  {{email_to_send}} sending email ... 
+                {%else%}
+                  {{email_to_send}} sending emails ... 
+                {%endif%}
+                </a>
+              </li>
+            </ul>
+            
+        
+            <div class="air air-bottom inbox-space">
+        
+             <!--  <strong>{{email_to_send}} email </strong> sending ...
+
+              <div class="progress progress-micro">
+                <div class="progress-bar progress-primary" style="width: 34%;"></div>
+              </div> -->
+            </div>
+        
+          </div>
+          <!-- <div class="table-wrap custom-scroll animated fast fadeInRight"> -->
+            <!-- ajax will fill this area -->
+            <!-- LOADING... -->
+
+            <div style="min-height: 503px; opacity: 1;" class="table-wrap custom-scroll animated fast fadeInRight">
+              <section id="widget-grid" class="">
+
+          <!-- row -->
+          <div class="row">
+
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                     {% for message in messages %}
+                      <tr id="msg29">
+                        <div class="col-md-12 col-xs-12 alert">
+                          {{ message }}
+                        </div>
+                       </tr>
+                   {% endfor %}
+                  {% endif %}
+                 {% endwith %}
+              <table id="jqgrid"></table>
+              
+              <div id="pjqgrid"></div>
+
+              <br>
+              <a href="javascript:void(0)" id="m1"></a>
+              <br>
+              <a href="javascript:void(0)" id="m1s"></a>
+
+            </article>
+            <!-- WIDGET END -->
+
+          </div>
+
+          <!-- end row -->
+
+        </section>
+            </div>
+        
+          <!-- </div> -->
+        </div>
+
+
+      </div>
+      <!-- END MAIN CONTENT -->
+
+    </div>
+    <!-- END MAIN PANEL -->
+    <script src="/statiac/admin/js/plugin/summernote/summernote.min.js"></script>
+    <script src="/statiac/adminjs/plugin/delete-table-row/delete-table-row.min.js"></script>
+   <script type="text/javascript">
+     if("{{name}}"!=''){
+        $('input[name="name"]').attr('value',"{{name|safe}}")
+        $('#frm').attr('action','/admin/email/group/{{name}}/edit/');
+      }
+   </script>
+
+
+
+
+   <!-- END SHORTCUT AREA -->
+
+    <script type="text/javascript">
+      var jqgrid_data =[];
+      var temp;
+    </script>
+    {%for group in groups%}
+     <script type="text/javascript">
+     temp=moment().from("{{group.published_at}}");
+      jqgrid_data.push({"name":"<a href='/admin/email/group/{{group.id}}/view/'>{{group.name}}</a>","published_at":temp,"action":"<a href='/admin/email/group/{{group.name}}/delete' onclick='return confirm(\"Are you sure ?\")' class='btn btn-xs btn-default'><i class='fa fa-trash-o' style='color:red;'></i></a>  <a href='/admin/email/group/{{group.name}}/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a>"});
+     </script>
+     {%endfor%}
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        pageSetUp();
+
+        jQuery("#jqgrid").jqGrid({
+          data : jqgrid_data,
+          datatype : "local",
+          colNames : ['Name','Published', 'Actions'],
+          colModel : [{
+            name : 'name',
+            index : 'name',
+            editable : false
+          },{
+            name : 'published_at',
+            index : 'published_at',
+            editable : false
+          },{
+            name : 'action',
+            index : 'action',
+            editable : false,
+            width:70
+          }],
+          rowList: [],        // disable page size dropdown
+            pgbuttons: false,     // disable page control like next, back button
+            pgtext: null,         // disable pager text like 'Page 0 of 10'
+            // viewrecords: false    // disable current view record text like 'View 1-10 of 100'
+          viewrecords : true,
+          rowNum:10000,
+          sortorder : "asc",
+          gridComplete : function() {
+            var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
+            
+          },
+          editurl : "/",
+          caption : "Group Info",
+          multiselect : false,
+          autowidth : true,
+          height: 3000,
+
+        });
+        jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {
+          edit : false,
+          add : false,
+          del : true
+        });
+        jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");
+        /* Add tooltips */
+        $('.navtable .ui-pg-button').tooltip({
+          container : 'body'
+        });
+
+        jQuery("#m1").click(function() {
+          var s;
+          s = jQuery("#jqgrid").jqGrid('getGridParam', 'selarrrow');
+          alert(s);
+        });
+        jQuery("#m1s").click(function() {
+          jQuery("#jqgrid").jqGrid('setSelection', "13");
+        });
+
+        // remove classes
+        $(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
+        $(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
+        $(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
+        $(".ui-jqgrid-pager").removeClass("ui-state-default");
+        $(".ui-jqgrid").removeClass("ui-widget-content");
+
+        // add classes
+        $(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
+        $(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
+
+        $(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
+        $(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
+        $(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
+        $(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
+        $(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
+        $(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
+        $(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+        $(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+
+        $(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
+        $(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
+
+        $(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
+        $(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
+
+        $(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
+        $(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
+
+        $(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
+        $(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
+
+      })
+
+      $(window).on('resize.jqGrid', function() {
+        $("#jqgrid").jqGrid('setGridWidth', $("#content").width());
+      })
+
+    </script>
+
+
+{% include 'admin/footer.html' %}
