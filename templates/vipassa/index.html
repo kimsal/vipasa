@@ -1,0 +1,196 @@
+{% include template_name+'/header.html' %}
+<!--slide-->
+<div class="hidden-xs col-sm-12 col-md-12 col-lg-12" style="padding:0px;">
+    <div style=" background-color:gray; margin:0px;">
+        <div id="example3" class="slider-pro">
+            <div class="sp-slides">
+                <div class="sp-slide">
+                    <img class="sp-image" src="../src/css/images/blank.gif" 
+                        data-src="/static/{{template_name}}/img/img1.jpg"
+                        data-small="/static/{{template_name}}/img/img1.jpg"
+                        data-medium="/static/{{template_name}}/img/img1.jpg"
+                        data-large="/static/{{template_name}}/img/img1.jpg"
+                        data-retina="/static/{{template_name}}/img/img1.jpg"
+                        />
+
+                    <p class="sp-layer sp-white sp-padding" 
+                        data-position="centerCenter" data-vertical="-50" 
+                        data-show-transition="right" data-show-delay="500" >
+                        Lorem ipsum dolor sit amet
+                    </p>
+
+                    <p class="sp-layer sp-black sp-padding" 
+                        data-position="centerCenter" data-vertical="50" 
+                        data-show-transition="left" data-show-delay="700">
+                        consectetur adipisicing elit
+                    </p>
+                </div>
+                <div class="sp-slide">
+                    <img class="sp-image" src="../src/css/images/blank.gif" 
+                        data-src="/static/{{template_name}}/img/img2.jpg"
+                        data-small="/static/{{template_name}}/img/img2.jpg"
+                        data-medium="/static/{{template_name}}/img/img2.jpg"
+                        data-large="/static/{{template_name}}/img/img2.jpg"
+                        data-retina="/static/{{template_name}}/img/img2.jpg"/>
+
+                    <p class="sp-layer sp-black sp-padding" 
+                        data-horizontal="50" data-vertical="50"
+                        data-show-transition="down" data-show-delay="500">
+                        Lorem ipsum dolor sit amet
+                    </p>
+
+                    <p class="sp-layer sp-white sp-padding" 
+                        data-horizontal="50" data-vertical="100"
+                        data-show-transition="up" data-show-delay="500">
+                        consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </p>
+                </div>
+
+                <div class="sp-slide">
+                    <img class="sp-image" src="../src/css/images/blank.gif" 
+                       data-src="/static/{{template_name}}/img/img3.jpg"
+                        data-small="/static/{{template_name}}/img/img3.jpg"
+                        data-medium="/static/{{template_name}}/img/img3.jpg"
+                        data-large="/static/{{template_name}}/img/img3.jpg"
+                        data-retina="/static/{{template_name}}/img/img3.jpg"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end slide-->
+
+
+<!--content-->
+<!-- Section1 -->
+<div class="container">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:10px; padding:0px;">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="padding-left:0px; padding-right:0px;">
+            <div style="padding:5px;">
+                <div class="panel panel-defualt">
+                    <center><img src="/static/{{template_name}}/img/img-con-1.jpg" class="img-responsive"></center>
+                    <div style="padding:5px;">
+                        <h6><b>Service Excellence</b></h6>
+                        <p>
+                            Excellent and consistent customer service is the foundation of any successful business.
+                        </p>
+                    </div>
+                    <center>
+                    <a href="single.html"><button class="btn btn-defualt">READ MORE</button></a>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="padding-left:0px; padding-right:0px;">
+            <div style="padding:5px;">
+                <div class="panel panel-defualt">
+                    <center><img src="/static/{{template_name}}/img/img-con-1.jpg" class="img-responsive"></center>
+                    <div style="padding:5px;">
+                        <h6><b>Service Excellence</b></h6>
+                        <p>
+                            Excellent and consistent customer service is the foundation of any successful business.
+                        </p>
+                    </div>
+                    <center>
+                    <a href="single.html"><button class="btn btn-defualt">READ MORE</button></a>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="padding-left:0px; padding-right:0px;">
+            <div style="padding:5px;">
+                <div class="panel panel-defualt">
+                    <center><img src="/static/{{template_name}}/img/img-con-1.jpg" class="img-responsive"></center>
+                    <div style="padding:5px;">
+                        <h6><b>Service Excellence</b></h6>
+                        <p>
+                            Excellent and consistent customer service is the foundation of any successful business.
+                        </p>
+                    </div>
+                    <center>
+                    <a href="single.html"><button class="btn btn-defualt">READ MORE</button></a>
+                    </center>
+                </div>
+            </div>
+            <a href="category.html"><button class="btn btn-defualt" style="width:243px;">SEE MORE</button></a>
+        </div>
+        <hr>
+    </div>
+    <!-- End Section1 -->
+</div><!--end container-->
+<!-- section 2 -->
+{%for post in review_top%}
+<div class="container">
+    <div class="section2 col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:10px;">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <h4>{{post.title}}</h4>
+            <center><img src="{{post.feature_image}}" class="img-responsive" style="width:100%;"></center>
+            <p></p>
+           <!--   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                 <center>
+                    <a href="/{{post.slug}}">
+                        <button class="btn1 btn btn-info">
+                             READ MORE
+                        </button>
+                    </a>
+                </center>
+            </div> -->
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="preview">
+               
+               
+                {{post.description|safe}}
+            </div>
+        </div>
+    </div>
+    <hr>
+</div>
+{%endfor%}
+<!-- end section2 -->
+<!-- section3 -->
+{%for post in reviews%}
+<div class="container">
+    <div class="section3 col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:10px;">
+        <h4>{{post.title}}</h4>
+        <p>
+        {{post.description|safe}}
+        {% set img = post.images.split('$$$$$') %}
+        {% set help=0 %}
+        {%for i in img %}
+        </p>
+            {% set help = help + 1 %}
+            {% if help==3 %}
+                <div class="clearfix"></div>
+                 {% set help=1 %}
+            {% endif %}
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="padding:10px;">
+                <center><img src="/static/images/images/{{i}}" class="img-responsive" data-toggle="modal" data-target="#myModal"></center>
+            </div>
+        {%endfor%}
+    </div>
+</div>
+{%endfor%}
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <img src="/static/{{template_name}}/img/picture2.jpg" class="img-responsive">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- end section3 -->
+
+{% include template_name+'/footer.html' %}

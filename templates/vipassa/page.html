@@ -1,0 +1,48 @@
+{% include template_name+'/header.html' %}
+<!--slide-->
+{%for page in page_object%}
+    <!-- section1 -->
+<div class="container" style="margin-top:25px;">
+
+    <h3 style="margin-bottom:50px;padding-left:0px;">
+        <b style="color:#afbd22">{{page.title}}</b>
+    </h3>
+    <p style="margin-bottom:10px;">
+
+    {{page.description|safe}}
+    </p>
+</div>
+<!-- end section1 -->
+{%if page.title=="Contact"%}
+<!-- section2 -->
+<div class="container">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <h4>LEAVE A REPLY</h4>
+        <div class="form-group">
+            <label for="name">Name(required)</label>
+            <input type="name" class="form-control" id="name">
+        </div>
+        <div class="form-group">
+            <label for="email">Email (not published)</label>
+            <input type="email" class="form-control" id="email">
+        </div>
+        <div class="form-group">
+            <label for="website">Website</label>
+            <input type="text" class="form-control" id="text">
+        </div>
+        <div class="form-group">
+            <label for="comment">Comment:</label>
+            <textarea class="form-control" rows="5" id="comment"></textarea>
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox" value="">Notify me of new comments to this post by email</label>
+        </div>
+        <button class="btn btn-info pull-right"><h4>SUBMIT</h4></button>
+    </div>
+</div>
+{%endif%}
+<br>
+{%endfor%}
+<!-- end section2 -->
+
+{% include template_name+'/footer.html' %}

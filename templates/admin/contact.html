@@ -1,4 +1,4 @@
-{% include '/admin/header.html' %} 
+{% include '/admin/contact/header.html' %} 
 		<!-- END NAVIGATION -->
 
 		<!-- MAIN PANEL -->
@@ -87,13 +87,13 @@
 			                    	{% for page in range(1,pagin+1) %}
 				                    	{% if page == current_pagin %}
 				                    		<li class="active">
-				                    			<a href="/admin/{{page}}">
+				                    			<a href="/admin/contact/{{page}}">
 				                    				{{page}}
 				                    			</a>
 				                    		</li>
 				                    	{%else%}
 				                    		<li>
-				                    			<a href="/admin/{{page}}">
+				                    			<a href="/admin/contact/{{page}}">
 				                    				{{page}}
 				                    			</a>
 				                    		</li>
@@ -102,16 +102,16 @@
 								</ul>
 							{%else %}
 								<li class="{%if current_pagin==1 %}active{%endif%}">
-									<a href="/admin/1">1</a>
+									<a href="/admin/contact/1">1</a>
 								</li>
 								<li class="{%if current_pagin==2 %}active{%endif%}">
-									<a href="/admin/2">2</a>
+									<a href="/admin/contact/2">2</a>
 								</li>
 								<li class="{%if current_pagin==3 %}active{%endif%}">
-									<a href="/admin/3">3</a>
+									<a href="/admin/contact/3">3</a>
 								</li>
 								<li class="{%if current_pagin==4 %}active{%endif%}">
-									<a href="/admin/4">4</a>
+									<a href="/admin/contact/4">4</a>
 								</li>
 								<li>
 									<a href="#">...</a>
@@ -119,13 +119,13 @@
 								{% for page in range(pagin-4,pagin+1) %}
 									{% if current_pagin == page%}
 								  <li class="active">
-								  	<a href="/admin/{{page}}">
+								  	<a href="/admin/contact/{{page}}">
 								  		{{page}}
 								  	</a>
 								  	</li>
 								 {%else%}
 								 	<li>
-								  	<a href="/admin/{{page}}">
+								  	<a href="/admin/contact/{{page}}">
 								  		{{page}}
 								  	</a>
 								  	</li>
@@ -165,7 +165,7 @@
 		 {% for contact in contacts %}
 		 <script type="text/javascript">
 		 	temp=moment().from("{{contact.published_at}}");
-		 	jqgrid_data.push({"firstname":"{{contact.id}}'","lastname":"{{contact.lastname}}'","email":"{{contact.email}}","published_at":temp,"action":"<a href='/admin/contact/delete/{{contact.id}}' onclick='return confirm(\"Are you sure ?\")' class='btn btn-xs btn-default'><i class='fa fa-trash-o' style='color:red;'></i></a>"});
+		 	jqgrid_data.push({"firstname":"{{contact.id}}'","lastname":"{{contact.lastname}}'","email":"{{contact.email}}",'comment':"{{contact.comment}}","published_at":temp,"action":"<a href='/admin/contact/contact/delete/{{contact.id}}' onclick='return confirm(\"Are you sure ?\")' class='btn btn-xs btn-default'><i class='fa fa-trash-o' style='color:red;'></i></a>"});
 		 </script>
 		 {%endfor%}
 
@@ -176,7 +176,7 @@
 				jQuery("#jqgrid").jqGrid({
 					data : jqgrid_data,
 					datatype : "local",
-					colNames : ['First Name','Last Name', 'Email',"Published_at",'Actions'],
+					colNames : ['First Name','Last Name', 'Email','Comment',"Published_at",'Actions'],
 					colModel : [{
 						name : 'firstname',
 						index : 'firstname',
@@ -188,6 +188,10 @@
 					}, {
 						name : 'email',
 						index : 'email',
+						editable : false
+					}, {
+						name : 'comment',
+						index : 'comment',
 						editable : false
 					}, {
 						name : 'published_at',
@@ -208,7 +212,7 @@
 						var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
 						for (var i = 0; i < ids.length; i++) {
 							var cl = ids[i];
-							be = "<a href='/admin/contact/delete/' class='btn btn-xs btn-default'><i class='fa fa-trash-o' style='color:red;'></i></a>";
+							be = "<a href='/admin/contact/contact/delete/' class='btn btn-xs btn-default'><i class='fa fa-trash-o' style='color:red;'></i></a>";
 							se = "";
 							ca = "<a href='' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a>";
 							jQuery("#jqgrid").jqGrid('setRowData', ids[i], {
@@ -283,4 +287,4 @@
 
 		</script>
 
-{% include '/admin/footer.html' %} 
+{% include '/admin/contact/footer.html' %} 

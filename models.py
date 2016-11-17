@@ -161,7 +161,7 @@ class Post(db.Model):
         self.images=images
         self.date = date
         self.trainers=trainers
-        location= self.location
+        self.location= location
     def add(post):
         db.session.add(post)
         return db.session.commit()
@@ -243,6 +243,7 @@ class Contact(db.Model):
     firstname  = db.Column(db.String(255))
     lastname  = db.Column(db.String(255))
     email  = db.Column(db.String(255),unique=True)
+    comment = db.Column(db.Text,nullable=True)
     published_at=db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp())
     def __str__(self):
         return self.name
@@ -252,12 +253,14 @@ class Contact(db.Model):
         return dict(id=self.id,
             firstname=self.firstname,
             lastname=self.lastname,
-            email=self.email
+            email=self.email,
+            comment = self.comment
             )
-    def __init__(self,firstname,lastname,email):
+    def __init__(self,firstname,lastname,email,comment=''):
         self.firstname =firstname
         self.lastname =lastname
         self.email =email
+        self.comment = comment
     def add(contact):
         db.session.add(contact)
         return db.session.commit()

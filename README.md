@@ -22,6 +22,9 @@ Application build for Amoogli as an example. We also provide value added service
 	sudo pip install bottle
 	
 	sudo pip install flask_mail
+	sudo apt-get install libpq-dev
+	sudo pip install psycopg2 
+
 	
 ## 🙌 Migrate database:
 	

@@ -57,6 +57,9 @@
   .set-title:hover{
     background-color:#79aec8;
   }
+  input#feature_image{
+    display:none;
+  }
 </style>
 <script type="text/javascript">
   var img_no=0;
@@ -334,9 +337,9 @@ $(".btn-save").click(function(){
      loadOldImages("{{p.images}}");
      $("#price").attr('value',"{{p.price}}");
      $("#map").html("{{p.map}}");
-     $("#date").html("{{p.date}}");
-     $("#location").html("{{p.location}}");
-     $("#trainers").html("{{p.trainers}}");
+     $("#date").attr('value',"{{p.date}}");
+     $("#trainers").attr('value',"{{p.trainers}}");
+     $("#location").attr('value',"{{p.location}}");
   });
   //Don't display button browse for feature image
   $('input#feature_image[name="feature_image"]').css('display','none');

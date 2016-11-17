@@ -52,7 +52,7 @@ mail=Mail(app)
 # header_image=random.choice (arr_header_image)
 @app.context_processor
 def inject_dict_for_all_templates():
-    return dict(searchform=SearchForm(),logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.filter_by(is_menu=1),pages = Page.query.filter_by(is_menu=1),partners=Partner.query.order_by(Partner.id.desc()).all())
+    return dict(searchform=SearchForm(),logined_name=request.cookies.get('blog_name'),template_name= template,categories = Category.query.filter_by(is_menu=1),pages = Page.query.filter_by(is_menu=1))
 #========================================================
 @auth.verify_token
 def verify_token(token):
@@ -367,11 +367,12 @@ def contact(type_submit=''):
 			firstname=data[0]
 			lastname=data[1]
 			email=data[2]
+			comment = data[3]
 			check=Contact.query.filter_by(email=email)
 			if check.count()>0:
 				return 'email already exists.'
 			else:
-				contact=Contact(firstname,lastname,email)
+				contact=Contact(firstname,lastname,email,comment)
 				status = Contact.add(contact)
 		        if not status:
 		            return "Contact saved was successfully"
@@ -499,6 +500,8 @@ def admin_post_add(slug=""):
 	now= now.replace(':',"",10).replace(' ','',4).replace('.','',5).replace('-','',5)
 		   		
 	if request.method == 'POST':
+		# filename=str(request.form['txt_temp_image'])
+		# print filename
 		try:
 			if form.validate() == False:
 		   		flash('Please try to fill form again.')
@@ -517,13 +520,16 @@ def admin_post_add(slug=""):
 		   			old_images=post.images
 		   		result = request.form
 				filename=str(request.form['txt_temp_image'])
+				# print filename
+				images=''
 				# return filename
 				if not slug:
-		   			if file:
+		   			if not file:
 		   				images=''
 		   				help=1
-	   					uploaded_files = flask. .files.getlist("other_image[]")
+	   					uploaded_files = flask.request.files.getlist("other_image[]")
 		   				# return filename
+		   				images = ''
 		   				for f in uploaded_files:
 		   					imagename = secure_filename(f.filename)
 		   					if imagename!="":
@@ -533,17 +539,22 @@ def admin_post_add(slug=""):
 			   					else:
 			   						images=images+"$$$$$"+(now+"-"+imagename)
 			   					help=help+1
-		   				tmp=Post(request.form['title'],request.form['description'],request.form['category_id'],filename,request.cookies.get('blog_id'),file_download,0,images,request.form['date'],request.form['trainers'],request.form['location'])
-			        	status=Post.add(tmp)
+		   				# tmp = Post(request.form['title'],request.form['description'],request.form.get('category_id'),filename,request.cookies.get('blog_id'),file_download,0,images)
+			      #   	status=Post.add(tmp)
+
+			     		print str(images)+" = -------------"
+			        	ob=Post(request.form['title'],request.form['description'],request.form.get('category_id'),filename,request.cookies.get('blog_id'),file_download,0,images,request.form['date'],request.form['trainers'],request.form['location'])
+			        	status=Post.add(ob)
 				        if not status:
 				            flash("Post added successfully")
 				            return redirect(url_for('admin_index'))
 				        else:
 				        	flash("Fail to add post !")
 				        	return redirect(url_for('admin_post_add'))
+
 				elif slug:
 					# return str(request.form["image1"])
-		   			if not not file: 
+		   			if not file: 
 		   				images=''
 		   				help=1
 	   					uploaded_files = flask.request.files.getlist("other_image[]")
@@ -574,15 +585,15 @@ def admin_post_add(slug=""):
 				   		# return images
 				   		#end keep old images
 				   		# return old_images
-	   					obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],"category_id":request.form['category_id'],'feature_image':filename,'images':images,'file':file_download })
+	   					obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],"category_id":request.form['category_id'],'feature_image':filename,'images':images,'file':file_download,'date':request.form['date'],'trainers':request.form['trainers'],'location':request.form['location'] })
 	   					status = db.session.commit()
 		   				if not status:
 		   					flash("Post updated successfully")
 		   					return redirect(url_for('admin_index'))
 		   			for post in obj:
 		   				tempFileName=post.feature_image
-	   				filename=tempFileName
-	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'category_id':request.form['category_id'],'feature_image':filename })
+	   				# filename=tempFileName
+	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'category_id':request.form['category_id'],'feature_image':filename,'date':request.form['date'],'trainers':request.form['trainers'],'location':request.form['location'] })
 	   				status = db.session.commit()
 	   				if not status:
 	   					flash("Post updated was successfully")
@@ -599,6 +610,115 @@ def admin_post_add(slug=""):
 			return render_template('admin/form/post.html', post = post, form = form)
 		else:
 			return render_template('admin/form/post.html', form = form)
+# def admin_post_add(slug=""):
+# 	form = PostForm()
+# 	categories = [(c.id, c.name) for c in Category.query.order_by(Category.name).all()]
+# 	form.category_id.choices = categories
+# 	now = str(datetime.now())
+# 	now= now.replace(':',"",10).replace(' ','',4).replace('.','',5).replace('-','',5)
+		   		
+# 	if request.method == 'POST':
+# 		try:
+# 			if form.validate() == False:
+# 		   		flash('Please try to fill form again.')
+# 		   		return redirect(url_for('admin_post_add'))
+# 		   	else:
+# 		   		obj=Post.query.filter_by(slug=slug)
+# 		   		file = request.files['file']
+# 		   		filedownload=secure_filename(file.filename)
+		   		
+# 		   		if filedownload!="":
+# 		   			file.save(os.path.join(app.config['UPLOAD_FOLDER_FILE'], now+"_"+filedownload))
+# 		   			file_download=now+"_"+filedownload
+# 		   		else:
+# 		   			file_download=''
+# 		   		for post in obj:
+# 		   			old_images=post.images
+# 		   		result = request.form
+# 				filename=str(request.form['txt_temp_image'])
+# 				# return filename
+# 				if not slug:
+# 		   			if file:
+# 		   				images=''
+# 		   				help=1
+# 	   					uploaded_files = flask.files.getlist("other_image[]")
+# 		   				# return filename
+# 		   				for f in uploaded_files:
+# 		   					imagename = secure_filename(f.filename)
+# 		   					if imagename!="":
+# 			   					f.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"-"+imagename))
+# 			   					if help==1:
+# 			   						images=now+"-"+imagename
+# 			   					else:
+# 			   						images=images+"$$$$$"+(now+"-"+imagename)
+# 			   					help=help+1
+# 			   			print images
+# 		   				tmp=Post(request.form['title'],request.form['description'],request.form['category_id'],filename,request.cookies.get('blog_id'),file_download,0,images,request.form['date'],request.form['trainers'],request.form['location'])
+# 			        	status=Post.add(tmp)
+# 				        if not status:
+# 				            flash("Post added successfully")
+# 				            return redirect(url_for('admin_index'))
+# 				        else:
+# 				        	flash("Fail to add post !")
+# 				        	return redirect(url_for('admin_post_add'))
+# 				elif slug:
+# 					# return str(request.form["image1"])
+# 		   			if not not file: 
+# 		   				images=''
+# 		   				help=1
+# 	   					uploaded_files = flask.request.files.getlist("other_image[]")
+# 		   				# return filename
+		   				
+# 		   				for f in uploaded_files:
+# 		   					imagename = secure_filename(f.filename)
+# 		   					if imagename!="":
+# 			   					f.save(os.path.join(app.config['UPLOAD_FOLDER'], now+"-"+imagename))
+# 			   					if help==1:
+# 			   						images=now+"-"+imagename
+# 			   					else:
+# 			   						images=images+"$$$$$"+(now+"-"+imagename)
+# 			   					help=help+1
+# 			   			if old_images!='':
+# 				   			if images!='':
+# 				   				images=old_images+"$$$$$"+images
+# 				   			else:
+# 				   				images=old_images
+# 			   			#keep old other images
+
+# 				   		for post in obj:
+# 				   			old_images=post.images
+# 				   		arr_to_remove=(request.form['all_removed_images']).split("$$$$$")
+# 				   		for item in arr_to_remove:
+# 				   			images=images.replace(item,'')
+# 				   		images=images.replace('$$$$$$$$$$','$$$$$')
+# 				   		# return images
+# 				   		#end keep old images
+# 				   		# return old_images
+# 	   					obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],"category_id":request.form['category_id'],'feature_image':filename,'images':images,'file':file_download })
+# 	   					status = db.session.commit()
+# 		   				if not status:
+# 		   					flash("Post updated successfully")
+# 		   					return redirect(url_for('admin_index'))
+# 		   			for post in obj:
+# 		   				tempFileName=post.feature_image
+# 	   				filename=tempFileName
+# 	   				obj.update({"slug" : slugify(request.form['title']) , "title" : request.form['title'],'description':request.form['description'],'category_id':request.form['category_id'],'feature_image':filename })
+# 	   				status = db.session.commit()
+# 	   				if not status:
+# 	   					flash("Post updated was successfully")
+# 	   					return redirect(url_for('admin_index'))
+# 			        else:
+# 			        	flash("Fail to update post!")
+# 			        	return redirect(url_for('admin_index'))
+# 		except Exception  as e:
+# 			flash(str(e.message))
+# 			return redirect(url_for("admin_post_add"))
+# 	elif request.method == 'GET':
+# 		if slug:
+# 			post=Post.query.filter_by(slug=slug)
+# 			return render_template('admin/form/post.html', post = post, form = form)
+# 		else:
+# 			return render_template('admin/form/post.html', form = form)
 @app.route('/admin/category', methods = ['GET', 'POST'])
 @app.route('/admin/category/', methods = ['GET', 'POST'])
 @app.route('/admin/category/add', methods = ['GET', 'POST'])
@@ -1379,7 +1499,9 @@ def index(pagination=1):
 	pagin=math.ceil((Post.query.count())/limit)
 	events=Event.query.order_by(Event.id.desc()).all()
 	members=Member.query.order_by(Member.id.desc()).all()
-	return render_template(template+'/index.html',members=members,events=events,form=form,page_name='home',posts_top=posts_top,home_posts=home_posts,posts_bottom = posts_bottom,pagin=int(pagin),current_pagin=int(pagination))
+	reviews = Post.query.filter_by(id=1)
+	review_top = Post.query.filter_by(id=2)
+	return render_template(template+'/index.html',review_top=review_top,reviews=reviews,form=form,page_name='home',posts_top=posts_top,home_posts=home_posts,posts_bottom = posts_bottom,pagin=int(pagin),current_pagin=int(pagination))
 @app.route('/templates/order/<slug>')
 @app.route('/templates/order/<slug>/')
 def book_template(slug=''):
